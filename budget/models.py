@@ -80,4 +80,15 @@ class UserBudget(models.Model):
         super(UserBudget, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return "%s Travel Budget: $%d" % (self.trip, self.total)
+        return "%s UserBudget: $%d" % (self.trip, self.total)
+
+class SavingScenario(models.Model):
+    """
+    Scenarios data model
+
+    """
+    name = models.CharField(max_length=256)
+    description = models.TextField()
+
+    def __unicode__(self):
+        return "%s" % (self.name)
