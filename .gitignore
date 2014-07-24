@@ -1,0 +1,8 @@
+# Minified JS
+*.min.js
+
+# Vim 
+*.swp
+
+# Python
+*.py[cod]
