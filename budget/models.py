@@ -3,7 +3,6 @@ budget module models
 
 """
 
-
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -60,3 +59,25 @@ class TravelBudget(Budget):
     """
     def __unicode__(self):
         return "%s Travel Budget: $%d" % (self.trip, self.max_budget)
+
+class UserBudget(models.Model):
+    """
+    User's trip budget data model
+
+    """
+    trip = models.ForeignKey(Trip, to_field='id', related_name='+')
+    lodging = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    transportation = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    travel = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    def save(self, *args, **kwargs):
+        """
+        Override save() to auto-populate the total field
+
+        """
+        self.total = sum([self.lodging, self.transportation, self.travel])
+        super(UserBudget, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return "%s Travel Budget: $%d" % (self.trip, self.total)
