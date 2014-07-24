@@ -7,6 +7,7 @@ This project shows how to use django to show a dashboard for money saved from bu
 .. note ::
 
     This does **not** include bigger picture modules such as: user login, metrics reporting, et cetera.
+    This is really just an example of the budget module.
 
 .. contents::
 
@@ -42,11 +43,11 @@ Install Python dependencies using *pip*::
 Initializing database
 ==========================
 
-``django-bitcoin`` uses South for its schema management.
+``django-budgetrip`` uses South for its schema management.
 Create a database (sqlite ``test.db`` file by default)::
 
     python manage.py syncdb
-    python manage.pt migrate budgets
+    python manage.pt migrate budget
 
 Do a test run
 =================
