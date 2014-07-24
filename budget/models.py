@@ -65,6 +65,8 @@ class UserBudget(models.Model):
     User's trip budget data model
 
     """
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
     trip = models.ForeignKey(Trip, to_field='id', related_name='+')
     lodging = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     transportation = models.DecimalField(max_digits=10, decimal_places=2, default=0)

@@ -8,6 +8,65 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'UserBudget'
+        db.create_table(u'budget_userbudget', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+            ('trip', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['budget.Trip'])),
+            ('lodging', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=10, decimal_places=2)),
+            ('transportation', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=10, decimal_places=2)),
+            ('travel', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=10, decimal_places=2)),
+            ('total', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=10, decimal_places=2)),
+        ))
+        db.send_create_signal(u'budget', ['UserBudget'])
+
+        # Adding model 'LodgingBudget'
+        db.create_table(u'budget_lodgingbudget', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('max_budget', self.gf('django.db.models.fields.DecimalField')(max_digits=10, decimal_places=2)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['auth.User'])),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+            ('trip', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['budget.Trip'])),
+        ))
+        db.send_create_signal(u'budget', ['LodgingBudget'])
+
+        # Adding model 'TravelBudget'
+        db.create_table(u'budget_travelbudget', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('max_budget', self.gf('django.db.models.fields.DecimalField')(max_digits=10, decimal_places=2)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['auth.User'])),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+            ('trip', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['budget.Trip'])),
+        ))
+        db.send_create_signal(u'budget', ['TravelBudget'])
+
+        # Adding model 'TransportationBudget'
+        db.create_table(u'budget_transportationbudget', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('max_budget', self.gf('django.db.models.fields.DecimalField')(max_digits=10, decimal_places=2)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['auth.User'])),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+            ('trip', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['budget.Trip'])),
+        ))
+        db.send_create_signal(u'budget', ['TransportationBudget'])
+
+        # Adding model 'Trip'
+        db.create_table(u'budget_trip', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('destination', self.gf('django.db.models.fields.CharField')(max_length=256)),
+            ('modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+            ('origin', self.gf('django.db.models.fields.CharField')(max_length=256)),
+            ('travel_begin', self.gf('django.db.models.fields.DateTimeField')()),
+            ('travel_end', self.gf('django.db.models.fields.DateTimeField')()),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['auth.User'])),
+        ))
+        db.send_create_signal(u'budget', ['Trip'])
+
         # Adding model 'SavingScenario'
         db.create_table(u'budget_savingscenario', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -18,6 +77,21 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
+        # Deleting model 'UserBudget'
+        db.delete_table(u'budget_userbudget')
+
+        # Deleting model 'LodgingBudget'
+        db.delete_table(u'budget_lodgingbudget')
+
+        # Deleting model 'TravelBudget'
+        db.delete_table(u'budget_travelbudget')
+
+        # Deleting model 'TransportationBudget'
+        db.delete_table(u'budget_transportationbudget')
+
+        # Deleting model 'Trip'
+        db.delete_table(u'budget_trip')
+
         # Deleting model 'SavingScenario'
         db.delete_table(u'budget_savingscenario')
 
@@ -98,8 +172,10 @@ class Migration(SchemaMigration):
         },
         u'budget.userbudget': {
             'Meta': {'object_name': 'UserBudget'},
+            'created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'lodging': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '10', 'decimal_places': '2'}),
+            'modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'total': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '10', 'decimal_places': '2'}),
             'transportation': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '10', 'decimal_places': '2'}),
             'travel': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '10', 'decimal_places': '2'}),
